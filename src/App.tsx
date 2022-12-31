@@ -7,47 +7,41 @@ import logo from "./logo.svg";
 import styles from "./App.module.css";
 
 const initialState = {
-  something : ''
+  some : 'Thing'
 }
 
-const DAWContext = createContext();
+const Context = createContext(initialState);
 
-const DAWProvider = (props: any) => {
-  
-  const [state, setState] = createStore(initialState);
+const Provider: Component = (props: any) => {
 
-  return (
-    <DAWContext.Provider value={state}>
-      {props.children}
-    </DAWContext.Provider>
-  );
+    const [state, setState] = createStore(initialState);
+    const toPass = [state, setState];
+
+    return (
+        <Context.Provider value={toPass}>
+            {props.children}
+        </Context.Provider>
+    );
 }
 
-console.log(useContext(DAWContext));
-
-function useDAWContext() { 
-  return useContext(DAWContext) 
+function useTheContext() {
+    return useContext(Context) 
 };
 
-console.log(useDAWContext());
+const Inner: Component = () => {
+
+    const [state, setState] = useTheContext();
+    return (
+        <div>Some {state.some}</div>
+    );
+}
 
 const App: Component = () => {
-  
-  onMount( () => {
-    console.log(useDAWContext());
-  });
-  
-  //const [state] = useDAWContext();
-  //console.log(state);
-  
-  // for a global style store purpose store
-  // is better as it'll contain arrays & objects
-  //const [getSignal, setSignal] = createSignal();
-
   return (
-    <DAWProvider>
-      <div class={styles.App}></div>
-    </DAWProvider>
+    <Provider>
+      <div class={styles.App}>Loaded</div>
+      <Inner />
+    </Provider>
   );
 };
 
