@@ -1,12 +1,17 @@
-import { useCounter } from "./counter";
+import { useTheContext } from "./counter";
 
-export default function Nested() {
-  const [count, { increment, decrement }] = useCounter();
+export default function Nested(props) {
+  const [store, setStore] = useTheContext();
+
+  const storeSomething = () => {
+    setStore();
+  };
+
   return (
     <>
-      <div>{count()}</div>
-      <button onClick={increment}>+</button>
-      <button onClick={decrement}>-</button>
+      <div>{store}</div>
+      <input type="text" onClick={storeSomething} value={store["props.name"]} />
+      <button onClick={storeSomething}>-</button>
     </>
   );
-};
+}
