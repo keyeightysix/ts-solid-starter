@@ -1,27 +1,24 @@
 import { createSignal, createContext, useContext } from "solid-js";
+import { createStore } from "solid-js/store";
 
-const CounterContext = createContext();
+const initialContext = {};
 
-export function CounterProvider(props) {
-  
-  const [count, setCount] = createSignal(props.count || 0),
-    counter = [
-      count,
-      {
-        increment() {
-          setCount(c => c + 1);
-        },
-        decrement() {
-          setCount(c => c - 1);
-        }
-      }
-    ];
+const theContext = createContext();
+
+console.log("there");
+
+export function theProvider(props) {
+  const [store, setStore] = createStore(initialContext);
+  console.log(store);
+  const theProvidedStore = [store, setStore];
 
   return (
-    <CounterContext.Provider value={counter}>
+    <theContext.Provider value={theProvidedStore}>
       {props.children}
-    </CounterContext.Provider>
+    </theContext.Provider>
   );
 }
 
-export function useCounter() { return useContext(CounterContext); }
+export function useTheContext() {
+  return useContext(theContext);
+}

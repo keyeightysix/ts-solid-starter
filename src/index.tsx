@@ -2,17 +2,22 @@
 
 import { render } from "solid-js/web";
 import Nested from "./nested";
-import { CounterProvider } from "./counter";
+import { theProvider } from "./counter";
 
 function App() {
-  return <>
-    <h1>Welcome to Counter App</h1>
-    <Nested />
-  </>
-};
+  return (
+    <>
+      <h1>Welcome to Counter App</h1>
+      <Nested name="component #1" />
+    </>
+  );
+}
 
-render(() => (
-  <CounterProvider count={1}>
-    <App />
-  </CounterProvider>
-), document.getElementById("app"));
+render(
+  () => (
+    <theProvider>
+      <App />
+    </theProvider>
+  ),
+  document.getElementById("app")
+);
